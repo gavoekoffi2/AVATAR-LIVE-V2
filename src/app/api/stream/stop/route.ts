@@ -30,6 +30,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const userId = (session.user as { id: string }).id;
+    if (liveSession.userId !== userId) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const duration = Math.floor(
       (Date.now() - liveSession.startedAt.getTime()) / 1000
     );

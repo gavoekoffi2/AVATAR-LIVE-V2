@@ -22,9 +22,11 @@ interface StudioState {
   rtmpUrl: string;
   streamKey: string;
 
+  sessionId: string | null;
   isLoading: boolean;
   loadingMessage: string;
 
+  setSessionId: (id: string | null) => void;
   setAvatar: (avatar: AvatarInfo | null) => void;
   setBackground: (bg: string | null) => void;
   setBackgroundStyle: (style: string | null) => void;
@@ -62,9 +64,11 @@ export const useStudioStore = create<StudioState>((set) => ({
   rtmpUrl: "",
   streamKey: "",
 
+  sessionId: null,
   isLoading: false,
   loadingMessage: "",
 
+  setSessionId: (id) => set({ sessionId: id }),
   setAvatar: (avatar) => set({ selectedAvatar: avatar }),
   setBackground: (bg) => set({ selectedBackground: bg }),
   setBackgroundStyle: (style) => set({ backgroundStyle: style }),

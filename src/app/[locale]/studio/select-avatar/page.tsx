@@ -93,7 +93,7 @@ export default function SelectAvatarPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface2 border border-border text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm"
-              placeholder="Search..."
+              placeholder={t("avatars.searchPlaceholder")}
             />
           </div>
           <div className="flex gap-2">

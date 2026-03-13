@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AccessToken } from "livekit-server-sdk";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
-    const { roomName, participantName } = await req.json();
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    if (!roomName || !participantName) {
+    const { roomName } = await req.json();
+
+    if (!roomName) {
       return NextResponse.json(
-        { error: "roomName and participantName are required" },
+        { error: "roomName is required" },
         { status: 400 }
       );
     }
@@ -22,8 +29,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const userId = (session.user as { id: string }).id;
     const token = new AccessToken(apiKey, apiSecret, {
-      identity: participantName,
+      identity: userId,
     });
 
     token.addGrant({

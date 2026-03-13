@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useStudioStore } from "@/stores/studio-store";
 import {
@@ -9,10 +10,12 @@ import {
   CameraOff,
   Radio,
   Square,
+  Loader2,
 } from "lucide-react";
 
 export default function StreamControls() {
   const t = useTranslations("studio");
+  const [isStarting, setIsStarting] = useState(false);
   const {
     isMicOn,
     isCameraOn,
@@ -22,6 +25,12 @@ export default function StreamControls() {
     startLive,
     stopLive,
     liveDuration,
+    selectedAvatar,
+    streamPlatform,
+    rtmpUrl,
+    streamKey,
+    sessionId,
+    setSessionId,
   } = useStudioStore();
 
   const formatDuration = (seconds: number) => {
@@ -31,6 +40,50 @@ export default function StreamControls() {
     return `${h.toString().padStart(2, "0")}:${m
       .toString()
       .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  };
+
+  const handleGoLive = async () => {
+    setIsStarting(true);
+    try {
+      const res = await fetch("/api/stream/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          avatarId: selectedAvatar?.id,
+          platform: streamPlatform,
+          rtmpUrl,
+          streamKey,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to start stream");
+      }
+
+      const data = await res.json();
+      setSessionId(data.session?.id ?? null);
+      startLive();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to start stream");
+    } finally {
+      setIsStarting(false);
+    }
+  };
+
+  const handleStopLive = async () => {
+    try {
+      if (sessionId) {
+        await fetch("/api/stream/stop", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId }),
+        });
+      }
+    } finally {
+      stopLive();
+      setSessionId(null);
+    }
   };
 
   return (
@@ -68,14 +121,20 @@ export default function StreamControls() {
 
         {/* Go Live / Stop */}
         <button
-          onClick={isLive ? stopLive : startLive}
+          onClick={isLive ? handleStopLive : handleGoLive}
+          disabled={isStarting}
           className={`px-8 py-3 rounded-full font-semibold text-sm flex items-center gap-2 transition-all ${
             isLive
               ? "bg-error text-white hover:bg-error/80"
               : "bg-accent text-white hover:bg-accent/80 animate-pulse-glow"
-          }`}
+          } ${isStarting ? "opacity-50 cursor-not-allowed" : ""}`}
         >
-          {isLive ? (
+          {isStarting ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              {t("goLive")}
+            </>
+          ) : isLive ? (
             <>
               <Square className="w-4 h-4" />
               {t("stopLive")}

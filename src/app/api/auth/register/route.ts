@@ -13,6 +13,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: "Invalid email format" },
+        { status: 400 }
+      );
+    }
+
+    if (password.length < 6) {
+      return NextResponse.json(
+        { error: "Password must be at least 6 characters" },
+        { status: 400 }
+      );
+    }
+
+    const safeName = (name || email.split("@")[0]).slice(0, 50).trim();
+
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -32,7 +49,7 @@ export async function POST(req: NextRequest) {
     const user = await prisma.user.create({
       data: {
         email,
-        name: name || email.split("@")[0],
+        name: safeName,
         passwordHash,
       },
     });

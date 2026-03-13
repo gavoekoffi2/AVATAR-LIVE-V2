@@ -80,7 +80,8 @@
     "pricingFeatureAllAvatars": "All avatars",
     "pricingFeatureCustomAvatars": "Custom avatars",
     "pricingFeaturePrioritySupport": "Priority support",
-    "pricingChoose": "Choose {plan}"
+    "pricingChoose": "Choose {plan}",
+    "heroViewers": "{count} viewers"
   },
   "dashboard": {
     "welcome": "Welcome, {name}!",
@@ -93,7 +94,8 @@
     "upgrade": "Upgrade",
     "stats": "Statistics",
     "minutes": "minutes",
-    "hours": "hours"
+    "hours": "hours",
+    "livesLabel": "Lives"
   },
   "studio": {
     "title": "AvatarLive Studio",
@@ -151,7 +153,8 @@
     "free": "Free",
     "select": "Select",
     "preview": "Preview",
-    "uploadOwn": "Upload my photo (coming soon)"
+    "uploadOwn": "Upload my photo (coming soon)",
+    "searchPlaceholder": "Search..."
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -183,5 +186,10 @@
     "fr": "Français",
     "en": "English",
     "switchTo": "Passer en Français"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "goBack": "Go back home"
   }
 }

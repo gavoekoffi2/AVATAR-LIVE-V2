@@ -68,7 +68,7 @@ export default function Sidebar() {
         <div className="grid grid-cols-2 gap-2">
           <div className="text-center">
             <p className="text-lg font-bold text-foreground">0</p>
-            <p className="text-[10px] text-muted">Lives</p>
+            <p className="text-[10px] text-muted">{t("dashboard.livesLabel")}</p>
           </div>
           <div className="text-center">
             <p className="text-lg font-bold text-foreground">0h</p>

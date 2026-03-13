@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function HeroAvatar() {
+  const t = useTranslations("landing");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -190,7 +192,7 @@ export default function HeroAvatar() {
         {/* Viewer count */}
         <div className="absolute bottom-4 left-4 glass px-3 py-1 rounded-full">
           <span className="text-xs text-foreground/80">
-            1.2K spectateurs
+            {t("heroViewers", { count: "1.2K" })}
           </span>
         </div>
       </div>

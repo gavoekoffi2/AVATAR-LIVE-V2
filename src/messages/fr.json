@@ -80,7 +80,8 @@
     "pricingFeatureAllAvatars": "Tous les avatars",
     "pricingFeatureCustomAvatars": "Avatars personnalisés",
     "pricingFeaturePrioritySupport": "Support prioritaire",
-    "pricingChoose": "Choisir {plan}"
+    "pricingChoose": "Choisir {plan}",
+    "heroViewers": "{count} spectateurs"
   },
   "dashboard": {
     "welcome": "Bienvenue, {name} !",
@@ -93,7 +94,8 @@
     "upgrade": "Passer au niveau supérieur",
     "stats": "Statistiques",
     "minutes": "minutes",
-    "hours": "heures"
+    "hours": "heures",
+    "livesLabel": "Lives"
   },
   "studio": {
     "title": "Studio AvatarLive",
@@ -151,7 +153,8 @@
     "free": "Gratuit",
     "select": "Sélectionner",
     "preview": "Aperçu",
-    "uploadOwn": "Uploader ma photo (bientôt)"
+    "uploadOwn": "Uploader ma photo (bientôt)",
+    "searchPlaceholder": "Rechercher..."
   },
   "nav": {
     "dashboard": "Tableau de bord",
@@ -183,5 +186,10 @@
     "fr": "Français",
     "en": "English",
     "switchTo": "Switch to English"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "description": "La page que vous cherchez n'existe pas ou a été déplacée.",
+    "goBack": "Retour à l'accueil"
   }
 }
