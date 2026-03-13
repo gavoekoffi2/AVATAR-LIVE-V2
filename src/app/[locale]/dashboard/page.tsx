@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
+import Sidebar from "@/components/layout/Sidebar";
 import {
   Video,
   Clock,
@@ -11,6 +12,7 @@ import {
   Crown,
   Calendar,
   PlayCircle,
+  Settings,
 } from "lucide-react";
 
 export default function DashboardPage() {
@@ -41,7 +43,10 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+      <div className="flex">
+        <Sidebar />
+
+        <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         {/* Welcome */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -126,7 +131,8 @@ export default function DashboardPage() {
             </Link>
           </div>
         </motion.div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

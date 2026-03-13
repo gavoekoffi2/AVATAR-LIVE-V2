@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 
@@ -45,7 +45,7 @@ const testimonials = [
 
 export default function Testimonials() {
   const t = useTranslations("landing");
-  const locale = "fr"; // Will be replaced by actual locale detection
+  const locale = useLocale() as "fr" | "en";
 
   return (
     <section className="py-24 bg-surface/30 relative">

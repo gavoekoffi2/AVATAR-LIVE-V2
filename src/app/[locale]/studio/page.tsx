@@ -11,7 +11,7 @@ import TrackingStatus from "@/components/tracking/TrackingStatus";
 import StreamControls from "@/components/streaming/StreamControls";
 import PlatformSelector from "@/components/streaming/PlatformSelector";
 import { useStudioStore } from "@/stores/studio-store";
-import { Settings, ChevronLeft } from "lucide-react";
+import { Settings, ChevronLeft, ExternalLink } from "lucide-react";
 
 const AvatarCanvas = dynamic(
   () => import("@/components/avatar/AvatarCanvas"),
@@ -23,6 +23,11 @@ const AvatarCanvas = dynamic(
       </div>
     ),
   }
+);
+
+const FaceTracker = dynamic(
+  () => import("@/components/tracking/FaceTracker"),
+  { ssr: false }
 );
 
 export default function StudioPage() {
@@ -56,15 +61,26 @@ export default function StudioPage() {
             </div>
           </div>
 
-          {/* Live badge */}
-          {isLive && (
-            <div className="flex items-center gap-2 bg-accent/20 px-4 py-2 rounded-full live-badge">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              <span className="text-sm font-bold text-accent">
-                {t("studio.live")}
-              </span>
-            </div>
-          )}
+          <div className="flex items-center gap-3">
+            {/* Live badge */}
+            {isLive && (
+              <div className="flex items-center gap-2 bg-accent/20 px-4 py-2 rounded-full live-badge">
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                <span className="text-sm font-bold text-accent">
+                  {t("studio.live")}
+                </span>
+              </div>
+            )}
+
+            {/* Go to full go-live page */}
+            <Link
+              href="/studio/go-live"
+              className="flex items-center gap-1.5 text-sm text-primary hover:text-primary-light transition-colors"
+            >
+              <ExternalLink className="w-4 h-4" />
+              {t("studio.goLive")}
+            </Link>
+          </div>
         </motion.div>
 
         <div className="grid lg:grid-cols-[1fr_350px] gap-6">
@@ -111,16 +127,10 @@ export default function StudioPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="space-y-6"
+            className="space-y-4"
           >
-            {/* Hidden video element for camera feed */}
-            <video
-              className="hidden"
-              id="camera-feed"
-              autoPlay
-              playsInline
-              muted
-            />
+            {/* Face tracker with camera preview */}
+            <FaceTracker />
 
             {/* Avatar selection */}
             <div className="glass rounded-2xl p-4 border border-border/50">
