@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  passwordHash  String?
+  image         String?
+  locale        String    @default("fr")
+  plan          Plan      @default(FREE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions      LiveSession[]
+  customAvatars UserAvatar[]
+  accounts      Account[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Avatar {
+  id           String         @id @default(cuid())
+  name         String
+  nameFr       String
+  nameEn       String
+  description  String?
+  vrmUrl       String
+  thumbnailUrl String
+  category     AvatarCategory
+  isPremium    Boolean        @default(false)
+  sortOrder    Int            @default(0)
+  createdAt    DateTime       @default(now())
+
+  sessions LiveSession[]
+}
+
+model UserAvatar {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  imageUrl  String
+  vrmUrl    String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model LiveSession {
+  id        String         @id @default(cuid())
+  userId    String
+  avatarId  String?
+  platform  StreamPlatform
+  rtmpUrl   String?
+  streamKey String?
+  startedAt DateTime       @default(now())
+  endedAt   DateTime?
+  duration  Int?
+  status    SessionStatus  @default(CREATED)
+
+  user   User    @relation(fields: [userId], references: [id])
+  avatar Avatar? @relation(fields: [avatarId], references: [id])
+}
+
+model Background {
+  id        String  @id @default(cuid())
+  name      String
+  nameFr    String
+  nameEn    String
+  imageUrl  String
+  category  String
+  isPremium Boolean @default(false)
+}
+
+enum Plan {
+  FREE
+  STARTER
+  PRO
+}
+
+enum AvatarCategory {
+  BUSINESS
+  CASUAL
+  CREATIVE
+  CUSTOM
+}
+
+enum StreamPlatform {
+  FACEBOOK
+  YOUTUBE
+  TIKTOK
+  INSTAGRAM
+  CUSTOM_RTMP
+  AVATARLIVE
+}
+
+enum SessionStatus {
+  CREATED
+  LIVE
+  ENDED
+  ERROR
+}
