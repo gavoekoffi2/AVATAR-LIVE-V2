@@ -190,7 +190,7 @@ export default function HeroAvatar() {
         {/* Viewer count */}
         <div className="absolute bottom-4 left-4 glass px-3 py-1 rounded-full">
           <span className="text-xs text-foreground/80">
-            1.2K viewers
+            1.2K spectateurs
           </span>
         </div>
       </div>

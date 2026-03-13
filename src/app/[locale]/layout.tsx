@@ -3,6 +3,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Toaster } from "react-hot-toast";
+import SessionProvider from "@/components/providers/SessionProvider";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -43,6 +44,7 @@ export default async function LocaleLayout({
         />
       </head>
       <body className="antialiased bg-background text-foreground min-h-screen">
+        <SessionProvider>
         <NextIntlClientProvider messages={messages}>
           {children}
           <Toaster
@@ -56,6 +58,7 @@ export default async function LocaleLayout({
             }}
           />
         </NextIntlClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );

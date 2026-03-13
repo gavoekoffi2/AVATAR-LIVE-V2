@@ -1,26 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId, avatarId, platform, rtmpUrl, streamKey } = await req.json();
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    if (!userId || !platform) {
+    const { avatarId, platform, rtmpUrl, streamKey } = await req.json();
+
+    if (!platform) {
       return NextResponse.json(
-        { error: "userId and platform are required" },
+        { error: "platform is required" },
         { status: 400 }
       );
     }
 
-    // In production, this would:
-    // 1. Create a LiveSession record in the database
-    // 2. Start the FFmpeg RTMP bridge process if needed
-    // 3. Return session ID and connection details
+    const userId = (session.user as { id: string }).id;
 
-    const sessionId = `session-${Date.now()}`;
+    const liveSession = await prisma.liveSession.create({
+      data: {
+        userId,
+        avatarId: avatarId || null,
+        platform,
+        rtmpUrl: rtmpUrl || null,
+        streamKey: streamKey || null,
+        status: "LIVE",
+      },
+    });
 
     return NextResponse.json({
-      sessionId,
-      status: "CREATED",
+      sessionId: liveSession.id,
+      status: liveSession.status,
       message: "Stream session created",
     });
   } catch (error) {

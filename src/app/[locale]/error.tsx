@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 export default function Error({
   error,
@@ -9,6 +10,8 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations();
+
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -20,16 +23,16 @@ export default function Error({
           <span className="text-4xl">&#9888;</span>
         </div>
         <h1 className="font-heading font-bold text-2xl text-foreground mb-3">
-          Une erreur est survenue
+          {t("common.error")}
         </h1>
         <p className="text-muted mb-8 max-w-md mx-auto">
-          Something went wrong. Please try again.
+          {error.message || t("common.error")}
         </p>
         <button
           onClick={reset}
           className="btn-gradient px-8 py-3 rounded-xl text-white font-semibold"
         >
-          Réessayer / Try again
+          {t("common.back")}
         </button>
       </div>
     </div>

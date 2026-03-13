@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Sidebar from "@/components/layout/Sidebar";
+import { useSession } from "next-auth/react";
 import {
   Video,
   Clock,
@@ -12,11 +13,11 @@ import {
   Crown,
   Calendar,
   PlayCircle,
-  Settings,
 } from "lucide-react";
 
 export default function DashboardPage() {
   const t = useTranslations();
+  const { data: session } = useSession();
 
   const stats = [
     {
@@ -55,7 +56,7 @@ export default function DashboardPage() {
           className="mb-8"
         >
           <h1 className="font-heading font-bold text-3xl text-foreground">
-            {t("dashboard.welcome", { name: "User" })}
+            {t("dashboard.welcome", { name: session?.user?.name || "User" })}
           </h1>
           <p className="text-muted mt-1">{t("common.tagline")}</p>
         </motion.div>

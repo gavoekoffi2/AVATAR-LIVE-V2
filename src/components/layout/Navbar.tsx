@@ -14,19 +14,13 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface NavbarProps {
-  isAuthenticated?: boolean;
-  userName?: string;
-}
-
-export default function Navbar({
-  isAuthenticated = false,
-  userName,
-}: NavbarProps) {
+export default function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
+  const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -34,7 +28,7 @@ export default function Navbar({
   // Auto-detect authenticated pages
   const isOnAppPage =
     pathname.startsWith("/dashboard") || pathname.startsWith("/studio");
-  const showAuthNav = isAuthenticated || isOnAppPage;
+  const showAuthNav = !!session || isOnAppPage;
 
   // Close user menu on click outside
   useEffect(() => {
@@ -104,7 +98,7 @@ export default function Navbar({
                       <User className="w-4 h-4 text-white" />
                     </div>
                     <span className="text-foreground font-medium">
-                      {userName || "User"}
+                      {session?.user?.name || "User"}
                     </span>
                     <ChevronDown
                       className={`w-3 h-3 text-muted transition-transform ${
@@ -141,7 +135,10 @@ export default function Navbar({
                         <div className="my-1 border-t border-border/50" />
                         <button
                           className="flex items-center gap-2 px-4 py-2 text-sm text-error hover:bg-error/10 transition-colors w-full text-left"
-                          onClick={() => setIsUserMenuOpen(false)}
+                          onClick={() => {
+                            setIsUserMenuOpen(false);
+                            signOut({ callbackUrl: "/" });
+                          }}
                         >
                           <LogOut className="w-4 h-4" />
                           {t("auth.logout")}
@@ -221,7 +218,10 @@ export default function Navbar({
                     <Settings className="w-4 h-4" />
                     {t("nav.settings")}
                   </Link>
-                  <button className="flex items-center gap-2 text-sm font-medium text-error py-2 w-full">
+                  <button
+                    className="flex items-center gap-2 text-sm font-medium text-error py-2 w-full"
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                  >
                     <LogOut className="w-4 h-4" />
                     {t("auth.logout")}
                   </button>

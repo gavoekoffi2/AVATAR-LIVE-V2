@@ -14,9 +14,40 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Register:", { name, email, password, confirmPassword });
+    if (password !== confirmPassword) {
+      setError(t("common.error"));
+      return;
+    }
+    setIsLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || t("common.error"));
+        return;
+      }
+      // Auto sign-in after registration
+      const { signIn } = await import("next-auth/react");
+      await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: "/dashboard",
+      });
+    } catch {
+      setError(t("common.error"));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -49,6 +80,11 @@ export default function RegisterPage() {
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            {error && (
+              <div className="p-3 rounded-lg bg-error/10 border border-error/20 text-error text-sm">
+                {error}
+              </div>
+            )}
             {/* Name */}
             <div>
               <label className="block text-sm font-medium text-muted mb-1.5">
@@ -133,9 +169,10 @@ export default function RegisterPage() {
 
             <button
               type="submit"
-              className="w-full btn-gradient py-3 rounded-xl text-white font-semibold transition-all"
+              disabled={isLoading}
+              className="w-full btn-gradient py-3 rounded-xl text-white font-semibold transition-all disabled:opacity-50"
             >
-              {t("auth.createAccount")}
+              {isLoading ? t("common.loading") : t("auth.createAccount")}
             </button>
           </form>
 

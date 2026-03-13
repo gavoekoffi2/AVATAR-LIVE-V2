@@ -12,10 +12,30 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // NextAuth sign-in will be implemented with backend
-    console.log("Login:", { email, password });
+    setIsLoading(true);
+    setError("");
+    try {
+      const { signIn } = await import("next-auth/react");
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      if (result?.error) {
+        setError(t("common.error"));
+      } else {
+        window.location.href = "/dashboard";
+      }
+    } catch {
+      setError(t("common.error"));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -51,6 +71,11 @@ export default function LoginPage() {
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            {error && (
+              <div className="p-3 rounded-lg bg-error/10 border border-error/20 text-error text-sm">
+                {error}
+              </div>
+            )}
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-muted mb-1.5">
@@ -111,9 +136,10 @@ export default function LoginPage() {
             {/* Submit */}
             <button
               type="submit"
-              className="w-full btn-gradient py-3 rounded-xl text-white font-semibold transition-all"
+              disabled={isLoading}
+              className="w-full btn-gradient py-3 rounded-xl text-white font-semibold transition-all disabled:opacity-50"
             >
-              {t("auth.login")}
+              {isLoading ? t("common.loading") : t("auth.login")}
             </button>
           </form>
 
