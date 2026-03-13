@@ -130,7 +130,13 @@
     "streamKey": "Stream key",
     "platformHelp": "Find your stream key in your platform settings.",
     "confirmGoLive": "Are you ready to go live?",
-    "confirmStop": "Do you really want to stop the live?"
+    "confirmStop": "Do you really want to stop the live?",
+    "checkAvatar": "Avatar selected",
+    "checkCamera": "Camera enabled",
+    "checkMic": "Microphone enabled",
+    "checkPlatform": "Platform selected",
+    "checkFace": "Face detected",
+    "connection": "Connection"
   },
   "avatars": {
     "title": "Avatar Gallery",
@@ -147,6 +153,11 @@
     "preview": "Preview",
     "uploadOwn": "Upload my photo (coming soon)"
   },
+  "nav": {
+    "dashboard": "Dashboard",
+    "studio": "Studio",
+    "settings": "Settings"
+  },
   "footer": {
     "about": "About",
     "privacy": "Privacy",
@@ -154,6 +165,19 @@
     "contact": "Contact",
     "madeWith": "Made with love by Pro Genius AI",
     "allRights": "All rights reserved"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "profileDesc": "Name, email, profile picture",
+    "language": "Language",
+    "languageDesc": "Change interface language",
+    "notifications": "Notifications",
+    "notificationsDesc": "Manage your notifications",
+    "security": "Security",
+    "securityDesc": "Password, connections",
+    "billing": "Billing",
+    "billingDesc": "Manage your plan and payments"
   },
   "language": {
     "fr": "Français",

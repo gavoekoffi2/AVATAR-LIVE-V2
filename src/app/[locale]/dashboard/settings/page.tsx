@@ -14,36 +14,43 @@ import {
   CreditCard,
   Crown,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 export default function SettingsPage() {
   const t = useTranslations();
 
-  const sections = [
+  const sections: {
+    icon: LucideIcon;
+    titleKey: string;
+    descKey: string;
+    action?: ReactNode;
+  }[] = [
     {
       icon: User,
-      title: { fr: "Profil", en: "Profile" },
-      desc: { fr: "Nom, email, photo de profil", en: "Name, email, profile photo" },
+      titleKey: "settings.profile",
+      descKey: "settings.profileDesc",
     },
     {
       icon: Globe,
-      title: { fr: "Langue", en: "Language" },
-      desc: { fr: "Changer la langue de l'interface", en: "Change interface language" },
+      titleKey: "settings.language",
+      descKey: "settings.languageDesc",
       action: <LanguageSwitcher />,
     },
     {
       icon: Bell,
-      title: { fr: "Notifications", en: "Notifications" },
-      desc: { fr: "Gérer vos notifications", en: "Manage your notifications" },
+      titleKey: "settings.notifications",
+      descKey: "settings.notificationsDesc",
     },
     {
       icon: Shield,
-      title: { fr: "Sécurité", en: "Security" },
-      desc: { fr: "Mot de passe, connexions", en: "Password, connections" },
+      titleKey: "settings.security",
+      descKey: "settings.securityDesc",
     },
     {
       icon: CreditCard,
-      title: { fr: "Facturation", en: "Billing" },
-      desc: { fr: "Gérer votre forfait et paiements", en: "Manage your plan and payments" },
+      titleKey: "settings.billing",
+      descKey: "settings.billingDesc",
     },
   ];
 
@@ -64,7 +71,7 @@ export default function SettingsPage() {
             <ChevronLeft className="w-5 h-5" />
           </Link>
           <h1 className="font-heading font-bold text-2xl text-foreground">
-            {t("common.save").replace("Enregistrer", "Paramètres").replace("Save", "Settings")}
+            {t("settings.title")}
           </h1>
         </motion.div>
 
@@ -75,7 +82,7 @@ export default function SettingsPage() {
           transition={{ delay: 0.1 }}
           className="mb-8 glass rounded-2xl p-6 border border-primary/20"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-3">
               <Crown className="w-5 h-5 text-warning" />
               <div>
@@ -97,7 +104,7 @@ export default function SettingsPage() {
         <div className="space-y-3">
           {sections.map((section, i) => (
             <motion.div
-              key={i}
+              key={section.titleKey}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.05 }}
@@ -110,9 +117,9 @@ export default function SettingsPage() {
                   </div>
                   <div>
                     <p className="font-medium text-foreground text-sm">
-                      {section.title.fr}
+                      {t(section.titleKey)}
                     </p>
-                    <p className="text-xs text-muted">{section.desc.fr}</p>
+                    <p className="text-xs text-muted">{t(section.descKey)}</p>
                   </div>
                 </div>
                 {section.action ? (

@@ -12,10 +12,10 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { href: "/dashboard", icon: LayoutDashboard, labelKey: "dashboard.stats" },
-  { href: "/studio", icon: Video, labelKey: "dashboard.goToStudio" },
+  { href: "/dashboard", icon: LayoutDashboard, labelKey: "nav.dashboard" },
+  { href: "/studio", icon: Video, labelKey: "nav.studio" },
   { href: "/studio/select-avatar", icon: Users, labelKey: "avatars.title" },
-  { href: "/dashboard/settings", icon: Settings, labelKey: "common.save" },
+  { href: "/dashboard/settings", icon: Settings, labelKey: "nav.settings" },
 ];
 
 export default function Sidebar() {

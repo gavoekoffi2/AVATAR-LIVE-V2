@@ -130,7 +130,13 @@
     "streamKey": "Clé de diffusion",
     "platformHelp": "Trouvez votre clé de diffusion dans les paramètres de votre plateforme.",
     "confirmGoLive": "Êtes-vous prêt à lancer le live ?",
-    "confirmStop": "Voulez-vous vraiment arrêter le live ?"
+    "confirmStop": "Voulez-vous vraiment arrêter le live ?",
+    "checkAvatar": "Avatar sélectionné",
+    "checkCamera": "Caméra activée",
+    "checkMic": "Micro activé",
+    "checkPlatform": "Plateforme choisie",
+    "checkFace": "Visage détecté",
+    "connection": "Connexion"
   },
   "avatars": {
     "title": "Galerie d'avatars",
@@ -147,6 +153,11 @@
     "preview": "Aperçu",
     "uploadOwn": "Uploader ma photo (bientôt)"
   },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "studio": "Studio",
+    "settings": "Paramètres"
+  },
   "footer": {
     "about": "À propos",
     "privacy": "Confidentialité",
@@ -154,6 +165,19 @@
     "contact": "Contact",
     "madeWith": "Fait avec amour par Pro Genius AI",
     "allRights": "Tous droits réservés"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "profile": "Profil",
+    "profileDesc": "Nom, email, photo de profil",
+    "language": "Langue",
+    "languageDesc": "Changer la langue de l'interface",
+    "notifications": "Notifications",
+    "notificationsDesc": "Gérer vos notifications",
+    "security": "Sécurité",
+    "securityDesc": "Mot de passe, connexions",
+    "billing": "Facturation",
+    "billingDesc": "Gérer votre forfait et paiements"
   },
   "language": {
     "fr": "Français",

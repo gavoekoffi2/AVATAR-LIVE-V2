@@ -30,26 +30,11 @@ export default function GoLivePage() {
   } = useStudioStore();
 
   const readinessChecks = [
-    {
-      label: { fr: "Avatar sélectionné", en: "Avatar selected" },
-      ok: !!selectedAvatar,
-    },
-    {
-      label: { fr: "Caméra activée", en: "Camera enabled" },
-      ok: isCameraOn,
-    },
-    {
-      label: { fr: "Micro activé", en: "Microphone enabled" },
-      ok: isMicOn,
-    },
-    {
-      label: { fr: "Plateforme choisie", en: "Platform selected" },
-      ok: !!streamPlatform,
-    },
-    {
-      label: { fr: "Visage détecté", en: "Face detected" },
-      ok: trackingQuality !== "lost",
-    },
+    { labelKey: "studio.checkAvatar", ok: !!selectedAvatar },
+    { labelKey: "studio.checkCamera", ok: isCameraOn },
+    { labelKey: "studio.checkMic", ok: isMicOn },
+    { labelKey: "studio.checkPlatform", ok: !!streamPlatform },
+    { labelKey: "studio.checkFace", ok: trackingQuality !== "lost" },
   ];
 
   const allReady = readinessChecks.every((c) => c.ok);
@@ -137,7 +122,7 @@ export default function GoLivePage() {
                         check.ok ? "text-foreground" : "text-muted"
                       }`}
                     >
-                      {check.label.fr}
+                      {t(check.labelKey)}
                     </span>
                   </div>
                 ))}
@@ -156,7 +141,7 @@ export default function GoLivePage() {
               <div className="flex items-center gap-2 mb-3">
                 <Wifi className="w-5 h-5 text-success" />
                 <span className="text-sm font-medium text-foreground">
-                  Connection
+                  {t("studio.connection")}
                 </span>
               </div>
               <TrackingStatus quality={trackingQuality} />
